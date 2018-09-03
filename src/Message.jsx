@@ -8,15 +8,15 @@ class Message extends Component {
     if (systemFlag) {
       message = (
         <div className='message system'>
-          {this.props.content}
+          {content}
         </div>
       );
     } else {
       message = (
         <div className="message">
           {message}
-          <span className="message-username">Anonymous1</span>
-          <span className="message-content">I won't be impressed with technology until I can download food.</span>
+          <span className="message-username">{username}</span>
+          <span className="message-content">{content}</span>
         </div>
       );  
     }
