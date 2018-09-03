@@ -20,9 +20,10 @@ class MessageList extends Component {
 
     return (
       <main className="messages">
-        {messages.map(message =>
-          <Message key={message.id} {...message} />
-        )}
+        {messages.map(message => {
+          const {id, ...rest} = message;
+          return <Message key={id} {...rest} />
+        })}
       </main>
     );
   }
