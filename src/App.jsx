@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
+import MessageList from './MessageList.jsx';
+import ChatBar from './ChatBar.jsx';
+import LogoBar from './LogoBar.jsx';
 
 class App extends Component {
   render() {
     return (
-      <h1>Hello React :)</h1>
+      <div>
+        <LogoBar />
+        <MessageList />
+        <ChatBar />
+      </div>
     );
   }
 }
