@@ -21,7 +21,7 @@ class Message extends Component {
       );  
     }
 
-    return <p>{message}</p>
+    return <div>{message}</div>
  }
 }
 export default Message;

@@ -3,20 +3,7 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
   render() {
-    const messages = [
-      {
-        id: 'as98f7',
-        username: 'Anonymous1',
-        content: 'I won\'t be impressed with technology until I can download food.',
-        systemFlag: false,
-      },
-      {
-        id: '32875a',
-        username: null,
-        content: 'Anonymous1 changed their name to nomnom.',
-        systemFlag: true
-      }
-    ]
+    const messages = this.props.messages;
 
     return (
       <main className="messages">
