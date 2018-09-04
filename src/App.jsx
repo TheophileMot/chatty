@@ -27,8 +27,6 @@ class App extends Component {
         }
       ]
     }
-
-    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   componentDidMount() {
