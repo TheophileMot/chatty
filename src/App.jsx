@@ -27,19 +27,14 @@ class App extends Component {
         }
       ]
     }
+
+    this.socket = null;
   }
 
   componentDidMount() {
-    console.log('componentDidMount <App />');
-    setTimeout(() => {
-      console.log('Simulating incoming message');
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: 'Michelle', content: 'Hello there!'};
-      const messages = [...this.state.messages, newMessage];
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    const serverUrl = 'ws://' + window.location.hostname + ':3001';
+    this.socket = new WebSocket(serverUrl);
+    console.log('Connected to server.');
   }
 
   render() {
@@ -49,7 +44,7 @@ class App extends Component {
         <MessageList messages={this.state.messages} />
         <ChatBar
           onUsernameBlur={name => this.handleUserNameBlur(name)}
-          onMessageKeyUp={message => this.handleMessageSubmit(message)}
+          onMessageKeyUp={msg => this.handleMessageSubmit(msg)}
           currentUser={this.state.currentUser}
         />
       </div>
@@ -65,23 +60,23 @@ class App extends Component {
     }
   }
 
-  handleMessageSubmit(message) {
-    this.sendMessage(message);
+  handleMessageSubmit(msg) {
+    this.sendMessage(msg);
   }
 
-  sendMessage(message) {
-    const messages = [...this.state.messages, message];
+  sendMessage(msg) {
+    const messages = [...this.state.messages, msg];
     this.setState({messages});
   }
 
-  sendSystemMessage(messageText) {
-    const message = {
+  sendSystemMessage(msgText) {
+    const msg = {
       id: randomize('a0', 6),
       username: null,
-      content: messageText,
+      content: msgText,
       systemFlag: true
     }
-    this.sendMessage(message);
+    this.sendMessage(msg);
   }
 }
 export default App;
