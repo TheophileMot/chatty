@@ -11,31 +11,32 @@ function ChatBar(props) {
     }
   }
 
-  function onMessageKeyUp(event, callback) {
-    const messageText = event.target.value;
+  function handleMessageKeyUp(event) {
+    const msgText = event.target.value;
     if (event.key === 'Enter' && !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey
-       && messageText !== '') {
+       && msgText !== '') {
       const newMessage = {
         id: randomize('a0', 6),
         username: props.currentUser,
-        content: messageText,
+        content: msgText,
         systemFlag: false,
       };
       event.target.value = '';
-      callback(newMessage);
+      props.onMessageKeyUp(newMessage);
     }
   }
 
   return (
     <footer className="chatbar">
       <input className="chatbar-username" onKeyUp={onUsernameKeyUp} onBlur={event => props.onUsernameBlur(event.target.value)} placeholder="Your Name (Optional)" defaultValue={props.currentUser} />
-      <input className="chatbar-message" onKeyUp={event => onMessageKeyUp(event, props.onMessageKeyUp)} placeholder="Type a message and hit ENTER" />
+      <input className="chatbar-message" onKeyUp={handleMessageKeyUp} placeholder="Type a message and hit ENTER" />
     </footer>
   );
 }
 ChatBar.propTypes = {
-  onMessageKeyUp:PropTypes.function,
-  onUsernameKeyUp:PropTypes.function,
+  onMessageKeyUp:PropTypes.func,
+  onUsernameBlur:PropTypes.func,
+  onUsernameKeyUp:PropTypes.func,
   currentUser:PropTypes.string,
 }
 
