@@ -14,7 +14,7 @@ function Message(props) {
     message = (
       <div className="message">
         <span className="message-username">{username}</span>
-        <span className="message-content">{content}</span>
+        <span className="message-content rotating">{content}</span>
       </div>
     );
   }

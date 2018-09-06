@@ -83,3 +83,16 @@ body {
   padding: 0 10px;
   text-decoration: none;
 }
+
+.rotating {
+  animation: wobbling 2s ease-in-out alternate infinite;
+}
+
+@keyframes wobbling {
+  from {
+    transform: rotate(-1deg);
+  }
+  to {
+    transform: rotate(1deg);
+  }
+}
