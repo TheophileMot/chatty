@@ -1,5 +1,3 @@
-import randomize from 'randomatic';
-
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
@@ -12,29 +10,14 @@ class App extends Component {
     this.state = {
       isLoading: true,
       currentUser: 'anonymous',
-      messages: [
-        {
-          id: 'as98f7',
-          username: 'anonymous',
-          content: 'I won\'t be impressed with technology until I can download food.',
-          systemFlag: false,
-        },
-        {
-          id: '32875a',
-          username: null,
-          content: 'anonymous changed their name to nomnom.',
-          systemFlag: true
-        }
-      ]
+      messages: []
     }
 
     this.socket = null;
   }
 
   componentDidMount() {
-    const serverUrl = 'ws://' + window.location.hostname + ':3001';
-    this.socket = new WebSocket(serverUrl);
-    console.log('Connected to server.');
+    this.setUpServerConnection();
   }
 
   render() {
@@ -51,6 +34,21 @@ class App extends Component {
     );
   }
 
+  setUpServerConnection() {
+    const serverUrl = 'ws://' + window.location.hostname + ':3001';
+    this.socket = new WebSocket(serverUrl);
+    
+    this.socket.onopen = evt => {
+      this.sendMessage('Hallo, I am connecting.', 'protocol');
+      console.log('Connected to server.');
+    }
+
+    this.socket.onmessage = evt => {
+      const messages = [...this.state.messages, JSON.parse(evt.data)];
+      this.setState({messages});
+    }
+  }
+
   handleUserNameBlur(name) {
     const newName = name || 'anonymous';
 
@@ -64,14 +62,16 @@ class App extends Component {
     this.sendMessage(msg);
   }
 
-  sendMessage(msg) {
-    const messages = [...this.state.messages, msg];
-    this.setState({messages});
+  sendMessage(msg, type = 'message') {
+    const packet = {
+      type,
+      data: msg,
+    }
+    this.socket.send(JSON.stringify(packet));
   }
 
   sendSystemMessage(msgText) {
     const msg = {
-      id: randomize('a0', 6),
       username: null,
       content: msgText,
       systemFlag: true

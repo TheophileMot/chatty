@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class Message extends Component {  
   render() {
     let message = null;
-    const { username, content, systemFlag } = this.props;
+    const { username, content, systemFlag } = this.props.data;
 
     if (systemFlag) {
       message = (
@@ -14,7 +15,6 @@ class Message extends Component {
     } else {
       message = (
         <div className="message">
-          {message}
           <span className="message-username">{username}</span>
           <span className="message-content">{content}</span>
         </div>
