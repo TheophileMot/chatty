@@ -36,7 +36,7 @@ wss.on('connection', (ws) => {
       console.log('Warning: received a packet in an unexpected format.');
     }
     if (parsedPacket.type === 'message') {
-      wss.broadcast({...parsedPacket, id: uuid()}, [ws]);
+      wss.broadcast({...parsedPacket, id: uuid()}, []);
     } else if (parsedPacket.type === 'protocol') {
       console.log(`--- Incoming protocol message: ${parsedPacket.data} ---`);
     } else {

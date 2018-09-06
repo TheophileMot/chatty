@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+// ROT13 to obfuscate / deobfuscate text: rotate through half the alphabet
+function rot13(text) {
+  let rotText  = text.replace(/[a-z]/g, c => 'abcdefghijklmnopqrstuvwxyz'['nopqrstuvwxyzabcdefghijklm'.indexOf(c)]);
+  rotText  = rotText.replace(/[а-я]/g, c => 'абвгдежзийклмнопрстуфхцчшщъыьэюя'['рстуфхцчшщъыьэюяабвгдежзийклмноп'.indexOf(c)]);
+  rotText  = rotText.replace(/[A-Z]/g, c => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'['NOPQRSTUVWXYZABCDEFGHIJKLM'.indexOf(c)]);
+  rotText  = rotText.replace(/[А-Я]/g, c => 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'['РСТУФХЦЧШЩЪЫЬЭЮЯАБВГДЕЖЗИЙКЛМНОП'.indexOf(c)]);
+
+  return rotText;
+}
+
 function ChatBar(props) {
   function onUsernameKeyUp(evt) {
     if (evt.key === 'Enter' && !evt.ctrlKey && !evt.shiftKey && !evt.altKey && !evt.metaKey) {
@@ -10,16 +20,23 @@ function ChatBar(props) {
   }
 
   function handleMessageKeyUp(evt) {
-    const msgText = evt.target.value;
-    if (evt.key === 'Enter' && !evt.ctrlKey && !evt.shiftKey && !evt.altKey && !evt.metaKey
-       && msgText !== '') {
-      const newMessage = {
-        username: props.currentUser,
-        content: msgText,
-        systemFlag: false,
-      };
-      evt.target.value = '';
-      props.onMessageKeyUp(newMessage);
+    let msgText = evt.target.value;
+    if (
+      (evt.key === 'Enter' && !evt.ctrlKey && !evt.shiftKey && !evt.altKey && !evt.metaKey)
+      && msgText !== ''
+    ) {
+        const username = props.currentUser;
+        if (username.startsWith('rot')) {
+          msgText = rot13(msgText);
+        }
+
+        const newMessage = {
+          username,
+          content: msgText,
+          systemFlag: false,
+        };
+        evt.target.value = '';
+        props.onMessageKeyUp(newMessage);
     }
   }
 
