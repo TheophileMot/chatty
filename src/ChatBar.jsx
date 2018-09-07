@@ -33,7 +33,6 @@ function ChatBar(props) {
         const newMessage = {
           username,
           content: msgText,
-          systemFlag: false,
         };
         evt.target.value = '';
         props.onMessageKeyUp(newMessage);
@@ -42,8 +41,8 @@ function ChatBar(props) {
 
   return (
     <footer className="chatbar">
-      <input className="chatbar-username" onKeyUp={onUsernameKeyUp} onBlur={evt => props.onUsernameBlur(evt.target.value)} placeholder="Your Name (Optional)" defaultValue={props.currentUser} />
-      <input className="chatbar-message" onKeyUp={handleMessageKeyUp} placeholder="Type a message and hit ENTER" />
+      <input className="chatbar-username" onKeyUp={ onUsernameKeyUp } onBlur={ evt => props.onUsernameBlur(evt.target.value) } placeholder="Your Name (Optional)" defaultValue={ props.currentUser } />
+      <input className="chatbar-message" onKeyUp={ handleMessageKeyUp } placeholder="Type a message and hit ENTER" />
     </footer>
   );
 }

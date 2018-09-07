@@ -70,6 +70,11 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+
+  .numUsers {
+    float: right;
+    padding: 20px;
+  }
 }
 
 .navbar-brand {
@@ -84,15 +89,15 @@ body {
   text-decoration: none;
 }
 
-.rotating {
-  animation: wobbling 2s ease-in-out alternate infinite;
+.wobbling {
+  animation: rotating 4s ease-in-out alternate infinite;
 }
 
-@keyframes wobbling {
+@keyframes rotating {
   from {
-    transform: rotate(-1deg);
+    transform: rotate(-0.5deg);
   }
   to {
-    transform: rotate(1deg);
+    transform: rotate(0.5deg);
   }
 }

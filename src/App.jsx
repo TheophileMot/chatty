@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       isLoading: true,
       currentUser: 'anonymous',
-      messages: []
+      numClients: 0,
+      messages: [],
     }
 
     this.socket = null;
@@ -23,12 +24,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <LogoBar />
-        <MessageList messages={this.state.messages} />
+        <LogoBar numClients={ this.state.numClients } />
+        <MessageList messages={ this.state.messages } />
         <ChatBar
-          onUsernameBlur={name => this.handleUserNameBlur(name)}
-          onMessageKeyUp={msg => this.handleMessageSubmit(msg)}
-          currentUser={this.state.currentUser}
+          onUsernameBlur={ name => this.handleUserNameBlur(name) }
+          onMessageKeyUp={ msg => this.handleMessageSubmit(msg) }
+          currentUser={ this.state.currentUser }
         />
       </div>
     );
@@ -37,6 +38,7 @@ class App extends Component {
   setUpServerConnection() {
     const serverUrl = 'ws://' + window.location.hostname + ':3001';
     this.socket = new WebSocket(serverUrl);
+    console.log(this.socket);
     
     this.socket.onopen = evt => {
       this.sendMessage('Hallo, I am connecting.', 'protocol');
@@ -45,7 +47,8 @@ class App extends Component {
 
     this.socket.onmessage = evt => {
       const messages = [...this.state.messages, JSON.parse(evt.data)];
-      this.setState({messages});
+      this.setState({ numClients: JSON.parse(evt.data).numClients });
+      this.setState({ messages });
     }
   }
 
@@ -54,7 +57,7 @@ class App extends Component {
 
     if (newName !== this.state.currentUser) {
       this.sendSystemMessage(`${this.state.currentUser} changed their name to ${newName}.`);
-      this.setState({currentUser: newName});
+      this.setState({ currentUser: newName });
     }
   }
 
@@ -74,9 +77,8 @@ class App extends Component {
     const msg = {
       username: null,
       content: msgText,
-      systemFlag: true
     }
-    this.sendMessage(msg);
+    this.sendMessage(msg, 'system');
   }
 }
 export default App;

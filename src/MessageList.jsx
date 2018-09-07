@@ -6,10 +6,10 @@ function MessageList(props) {
 
   return (
     <main className="messages">
-      {messages.map(message => {
-        const {id, ...rest} = message;
-        return <Message key={id} {...rest} />
-      })}
+      { messages.map(message => {
+        const { id, ...rest } = message;
+        return <Message key={ id } { ...rest } />
+      }) }
     </main>
   );
 }
