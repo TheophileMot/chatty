@@ -41,9 +41,9 @@ There are two effects associated with certain user names:
 
 ### Friendly number ghost
 
-A number ghost listens in on the conversation and tries to join in. For example:
+A number ghost listens in on the conversation and tries to join in with appropriate comments. In the following example, it noticed that Sarah and Amir were mentioning descending Fibonacci numbers (13, 8, 5), and added a comment with the next number in the sequence (3).
 
-![number ghost](https://raw.githubusercontent.com/TheophileMot/chatty/master/screenshots/Chatty-number-ghost.png)
+![number ghost](https://github.com/TheophileMot/chatty/blob/master/screenshots/Chatty-number-ghost.png)
 
 ### Dependencies
 
