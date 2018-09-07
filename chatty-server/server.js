@@ -52,6 +52,8 @@ const numberGhost = {
     };
     wss.clients.add('👻');
     wss.getJSON(options, (statusCode, res) => {
+      wss.clients.delete('👻')
+
       if (res.results === null) {
         // no matching pattern; give up and reset
         this.numberSeq = [];
@@ -70,11 +72,10 @@ const numberGhost = {
         const packet = {
           type: 'ghost',
           data: {
-            username: 'number ghost',
+            username: '👻 number ghost',
             content: ghostMessage,
           },
         }
-        wss.clients.delete('👻')
         wss.broadcast(packet);
       });
     });

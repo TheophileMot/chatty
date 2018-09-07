@@ -32,7 +32,7 @@ function Message(props) {
       <div className='message ghost bobbling'>
         <div className='ghostly-container'>
           <div className='another-ghostly-container'>
-            <span className="message-username ghost">number ghost</span>
+            <span className="message-username ghost">{ username }</span>
             <span className="message-content ghost">{ content }</span>
           </div>
         </div>
