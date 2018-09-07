@@ -43,7 +43,7 @@ There are two effects associated with certain user names:
 
 A number ghost listens in on the conversation and tries to join in. For example:
 
-![number ghost](https://raw.githubusercontent.com/TheophileMot/chatty/master/screenshots/Chatty-number-ghost.png)
+![number ghost](https://github.com/TheophileMot/chatty/blob/master/screenshots/Chatty-number-ghost.png)
 
 ### Dependencies
 
