@@ -20,42 +20,8 @@ class App extends Component {
   componentDidMount() {
     this.setUpServerConnection();
 
-    // fake messages to demonstrate number ghost: uncomment the following lines for demo
-    /*
-    setTimeout(() => {
-      const msg = {
-        id: '5d16310e-00a0-46bb-bbc8-1805495c366a',
-        type: 'message',
-        data: {
-          username: 'sarah',
-          content: 'hey, have you done question 13 yet?'
-        }
-      };
-      this.socket.send(JSON.stringify(msg));
-    }, 3000);
-    setTimeout(() => {
-      const msg = {
-        id: '181d9f21-073d-4eac-82f7-311a24f5d5c7',
-        type: 'message',
-        data: {
-          username: 'amir',
-          content: 'no, I\'m still working on 8... almost there'
-        }
-      };
-      this.socket.send(JSON.stringify(msg));
-    }, 9000);
-    setTimeout(() => {
-      const msg = {
-        id: '1e2d81bb-8496-4dd2-812d-880435641dda',
-        type: 'message',
-        data: {
-          username: 'amir',
-          content: 'should be done in 5 minutes or so'
-        }
-      };
-      this.socket.send(JSON.stringify(msg));
-    }, 12000);
-    */
+    // fake messages to summon number ghost: uncomment the following line for demo when app starts
+    this.runDemo();
   }
 
   render() {
@@ -115,6 +81,42 @@ class App extends Component {
       content: msgText,
     }
     this.sendMessage(msg, 'system');
+  }
+
+  runDemo() {
+    setTimeout(() => {
+      const msg = {
+        id: '5d16310e-00a0-46bb-bbc8-1805495c366a',
+        type: 'message',
+        data: {
+          username: 'sarah',
+          content: 'hey, have you done question 13 yet?'
+        }
+      };
+      this.socket.send(JSON.stringify(msg));
+    }, 3000);
+    setTimeout(() => {
+      const msg = {
+        id: '181d9f21-073d-4eac-82f7-311a24f5d5c7',
+        type: 'message',
+        data: {
+          username: 'amir',
+          content: 'no, I\'m still working on 8... almost there'
+        }
+      };
+      this.socket.send(JSON.stringify(msg));
+    }, 9000);
+    setTimeout(() => {
+      const msg = {
+        id: '1e2d81bb-8496-4dd2-812d-880435641dda',
+        type: 'message',
+        data: {
+          username: 'amir',
+          content: 'should be done in 5 minutes or so'
+        }
+      };
+      this.socket.send(JSON.stringify(msg));
+    }, 12000);
   }
 }
 export default App;

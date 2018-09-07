@@ -53,6 +53,7 @@ const numberGhost = {
     wss.clients.add('👻');
     wss.getJSON(options, (statusCode, res) => {
       wss.clients.delete('👻')
+      wss.broadcastSystemMessage('goodbye, number ghost', false);
 
       if (res.results === null) {
         // no matching pattern; give up and reset
@@ -141,9 +142,10 @@ wss.broadcast = function broadcast(packet, excludedUsers = []) {
   });
 };
 
-wss.broadcastSystemMessage = function broadcastSystemMessage(msgText) {
+wss.broadcastSystemMessage = function broadcastSystemMessage(msgText, display = true) {
   const packet = {
     type: 'system',
+    display,
     data: {
       username: null,
       content: msgText,

@@ -9,6 +9,10 @@ function MessageList(props) {
       { messages.map(message => {
         const { id, sender, ...rest } = message;
         const msgColour = colourById(sender);
+        if (rest.display === false) {
+          return null;
+        }
+
         return <Message key={ id } { ...rest } msgColour={ msgColour } />
       }) }
     </main>
