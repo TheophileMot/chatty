@@ -22,7 +22,7 @@ open http://localhost:3000
 
 ### Usage
 
-Just start typing messages in the chat bar!
+Just start typing messages in the chat bar! You can also type a URL of an image; it must start with `http` or `https` and end with `png`, `gif`, or `jpg`.
 
 You can change your user name in the lower left. Users are assigned colours randomly: specifically, their UUID is parsed into a hex colour, and since the UUID is associated only with the websocket client, a user's colour will remain constant even they change their name.
 
