@@ -1,7 +1,7 @@
 Chatty
 ======
 
-A simple chat app for multiple users, using React.
+A simple chat app for multiple users, built on React.
 
 ### Installation
 
