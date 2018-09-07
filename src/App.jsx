@@ -21,7 +21,7 @@ class App extends Component {
     this.setUpServerConnection();
 
     // fake messages to summon number ghost: uncomment the following line for demo when app starts
-    this.runDemo();
+    // this.runDemo();
   }
 
   render() {
