@@ -13,7 +13,7 @@ function Message(props) {
   } else {
     message = (
       <div className="message">
-        <span className="message-username wobbling">{ username }</span>
+        <span className="message-username wobbling" style={{ color: props.msgColour }}>{ username }</span>
         <span className="message-content wobbling">{ content }</span>
       </div>
     );

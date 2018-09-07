@@ -25,6 +25,8 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   wss.broadcastSystemMessage('A new user has joined the chat.');
 
+  ws.id = uuid();
+
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
     console.log('Client disconnected');
@@ -33,12 +35,15 @@ wss.on('connection', (ws) => {
 
   ws.on('message', function incoming(packet) {
     // try to parse the packet; otherwise stuff it into a generalized object
-    let parsedPacket = { data: packet };
+    let parsedPacket = {};
     try {
       parsedPacket = JSON.parse(packet);
+      parsedPacket.sender = ws.id;
     } catch(e) {
       console.log('Warning: received a packet in an unexpected format.');
+      return;
     }
+
     if (parsedPacket.type === 'message' || parsedPacket.type === 'system') {
       wss.broadcast(parsedPacket, []);
     } else if (parsedPacket.type === 'protocol') {

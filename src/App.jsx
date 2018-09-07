@@ -38,7 +38,6 @@ class App extends Component {
   setUpServerConnection() {
     const serverUrl = 'ws://' + window.location.hostname + ':3001';
     this.socket = new WebSocket(serverUrl);
-    console.log(this.socket);
     
     this.socket.onopen = evt => {
       this.sendMessage('Hallo, I am connecting.', 'protocol');
