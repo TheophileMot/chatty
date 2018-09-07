@@ -53,11 +53,29 @@ body {
   padding: 5px 20px;
 }
 
+.message.ghost {
+  font-style: italic;
+  color: #aaa;
+  padding: 5px 20px;
+
+  animation: rotating-even-more 7s ease-in-out alternate infinite,
+             back-and-forth 20s ease-in-out alternate infinite,
+             ghostly-flicker 400ms ease-in-out alternate infinite;
+}
+
 .message-content,
 .message-username {
   overflow: hidden;
   margin: 5px;
   padding: 0 10px;
+}
+
+.ghostly-container {
+  animation: up-and-down 13s ease-in-out alternate infinite,
+}
+
+.another-ghostly-container {
+  animation: rotating-even-more 4s ease-in-out alternate infinite;
 }
 
 .message-content {
@@ -109,8 +127,7 @@ body {
 @keyframes rotating {
   from {
     transform: rotate(-0.5deg);
-  }
-  to {
+  } to {
     transform: rotate(0.5deg);
   }
 }
@@ -118,8 +135,39 @@ body {
 @keyframes rotating-more {
   from {
     transform: rotate(1deg);
-  }
-  to {
+  } to {
     transform: rotate(-1deg);
   }
+}
+
+@keyframes rotating-even-more {
+  from {
+    transform: rotate(5deg);
+  } to {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes back-and-forth {
+  from {
+    transform: translate(0px);
+  } to {
+    transform: translate(200px);
+  }
+}
+
+@keyframes up-and-down {
+  from {
+    transform: translate(0, 20px);
+  } to {
+    transform: translate(0, -20px);
+  }
+}
+
+@keyframes ghostly-flicker {
+  0%   { color: #888; }
+  10%  { color: #999; }
+  30%  { color: #888; }
+  95%  { color: #999; }
+  100% { color: #aaa; }
 }

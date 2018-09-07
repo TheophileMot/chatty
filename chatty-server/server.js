@@ -1,6 +1,8 @@
 const express = require('express');
 const WebSocket = require('ws');
 const SocketServer = require('ws').Server;
+const http = require('http');
+const https = require('https');
 
 const uuid = require('uuid/v1');
 
@@ -18,6 +20,64 @@ const server = express()
 
 // Create the WebSockets server
 const wss = new SocketServer({ server });
+
+// Create the number ghost. This should eventually be extracted into a separate file
+const numberGhost = {
+  numberSeq: [],
+  prefixes: [],
+  suffixes: [],
+  replyAfter: 3,
+  mull(msg, wss) {
+    // if string contains exactly one number, store it and possibly respond
+    msg.replace(/^(\D*)(\d+)(\D*)$/, (match, prefix, number, suffix) => {
+      this.numberSeq.push(number);
+      this.prefixes.push(prefix);
+      this.suffixes.push(suffix);
+
+      if (this.numberSeq.length >= this.replyAfter) {
+        this.makeGuess(wss);
+      }
+    });
+  },
+  makeGuess(wss) {
+    const numberSeqCommas = this.numberSeq.join(',');
+    const options = {
+      host: 'oeis.org',
+      port: 443,
+      path: `/search?q=${numberSeqCommas}&fmt=json`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    wss.getJSON(options, (statusCode, res) => {
+      if (res.results === null) {
+        // no matching pattern; give up and reset
+        this.numberSeq = [];
+        this.prefixes = [];
+        this.suffixes = [];
+        return;
+      }
+
+      const rx = new RegExp(`${numberSeqCommas},(\\d+)`);
+      res.results[0].data.replace(rx, (match, nextNumber) => {
+        const randomPrefix = (this.prefixes.length > 0) ? this.prefixes[Math.floor(Math.random() * this.prefixes.length)] : '';
+        const randomSuffix = (this.suffixes.length > 0) ? this.suffixes[Math.floor(Math.random() * this.suffixes.length)] : '';
+        const punctuation = (res.results.length === 1) ? ' :D' : '?';
+        const ghostMessage = `${randomPrefix}${nextNumber}${randomSuffix}${punctuation}`;
+
+        const packet = {
+          type: 'ghost',
+          data: {
+            username: 'number ghost',
+            content: ghostMessage,
+          },
+        }
+        wss.broadcast(packet);
+      });
+    });
+  },
+}
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -48,6 +108,8 @@ wss.on('connection', (ws) => {
     if (parsedPacket.type === 'message') {
       if (isLinkToImage(parsedPacket.data.content)) {
         parsedPacket.type = 'image-link';
+      } else {
+        numberGhost.mull(parsedPacket.data.content, wss);
       }
       wss.broadcast(parsedPacket, []);
     } else if (parsedPacket.type === 'system') {
@@ -90,3 +152,27 @@ wss.broadcastSystemMessage = function broadcastSystemMessage(msgText) {
 function isLinkToImage(str) {
   return str.match(urlRegEx) && str.match(/\.(png|gif|jpg)$/i);
 }
+
+wss.getJSON = function getJSON(options, onResult) {
+    var port = options.port == 443 ? https : http;
+    var req = port.request(options, function(res) {
+        var output = '';
+        console.log(`Received JSON: ${options.host} : ${res.statusCode}`);
+        res.setEncoding('utf8');
+
+        res.on('data', function (chunk) {
+            output += chunk;
+        });
+
+        res.on('end', function() {
+            var obj = JSON.parse(output);
+            onResult(res.statusCode, obj);
+        });
+    });
+
+    req.on('error', function(err) {
+        //res.send('error: ' + err.message);
+    });
+
+    req.end();
+};
