@@ -1,41 +1,49 @@
-React Boilerplate
-=====================
+Chatty
+======
 
-A minimal and light dev environment for ReactJS.
+A simple chat app for multiple users, using React.
 
-### Usage
-
-Clone the boilerplate and create your own git repo.
-
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
-
-Install the dependencies and start the server.
+### Installation
 
 ```
 npm install
+```
+
+Then: from `./chatty-server/`, start up the server:
+```
+node server.js
+```
+
+Finally,  from the main directory, 
+```
 npm start
 open http://localhost:3000
 ```
 
-### Static Files
+### Usage
 
-You can store static files like images, fonts, etc in the `build` folder.
+Just start typing messages in the chat bar!
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+You can change your user name in the lower left. Users are assigned colours randomly: specifically, their UUID is parsed into a hex colour, and since the UUID is associated only with the websocket client, a user's colour will remain constant even they change their name.
 
-### Linting
+The system sends out notifications when a user connects, disconnects, or changes name. The total number of connected users is displayed in the top right.
 
-This boilerplate project includes React ESLint configuration.
+There are two user names that produce special effects.
 
-```
-npm run lint
-```
+Finally, there is a friendly number ghost.
+
+### Special user names
+
+There are two effects associated with certain user names:
+
+* Messages written by a user whose name contains 'rot' will be transformed through ROT13.
+* Messages written by a user whose name contains 'bob' will bob.
+
+### Friendly number ghost
+
+A number ghost listens in on the conversation and tries to join in. For example:
+
+![number ghost](https://raw.githubusercontent.com/TheophileMot/chatty/master/screenshots/Chatty-number-ghost.png)
 
 ### Dependencies
 
