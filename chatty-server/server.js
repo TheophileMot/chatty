@@ -50,6 +50,7 @@ const numberGhost = {
         'Content-Type': 'application/json'
       }
     };
+    wss.clients.add('👻');
     wss.getJSON(options, (statusCode, res) => {
       if (res.results === null) {
         // no matching pattern; give up and reset
@@ -73,6 +74,7 @@ const numberGhost = {
             content: ghostMessage,
           },
         }
+        wss.clients.delete('👻')
         wss.broadcast(packet);
       });
     });
