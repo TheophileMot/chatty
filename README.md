@@ -45,6 +45,10 @@ A number ghost listens in on the conversation and tries to join in with appropri
 
 ![number ghost](https://github.com/TheophileMot/chatty/blob/master/screenshots/Chatty-number-ghost.png)
 
+Here's a longer conversation with number ghost.
+
+![number ghost](https://github.com/TheophileMot/chatty/blob/master/screenshots/Chatty-math-lesson.png)
+
 ### Dependencies
 
 * React
