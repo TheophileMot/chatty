@@ -38,6 +38,14 @@ body {
 .message {
   display: flex;
   padding: 5px;
+
+  img {
+    max-width: 60%;
+  }
+
+  .spacer {
+    flex: 2;
+  }
 }
 
 .message.system {
@@ -94,11 +102,24 @@ body {
   animation: rotating 4s ease-in-out alternate infinite;
 }
 
+.bobbling {
+  animation: rotating-more 7s ease-in-out alternate infinite;
+}
+
 @keyframes rotating {
   from {
     transform: rotate(-0.5deg);
   }
   to {
     transform: rotate(0.5deg);
+  }
+}
+
+@keyframes rotating-more {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
   }
 }

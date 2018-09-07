@@ -10,13 +10,21 @@ function Message(props) {
         { content }
       </div>
     );
-  } else {
+  } else if (props.type === 'message') {
     message = (
-      <div className="message">
+      <div className="message bobbling">
         <span className="message-username wobbling" style={{ color: props.msgColour }}>{ username }</span>
         <span className="message-content wobbling">{ content }</span>
       </div>
     );
+  } else if (props.type === 'image-link') {
+    message = (
+      <div className="message bobbling">
+        <span className="message-username wobbling" style={{ color: props.msgColour }}>{ username }</span>
+        <img src={ content } />
+        <span className="spacer"></span>
+      </div>
+    )
   }
 
   return message;

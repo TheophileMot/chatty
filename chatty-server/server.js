@@ -1,10 +1,11 @@
-const uuid = require('uuid/v1');
-
-// server.js
-
 const express = require('express');
 const WebSocket = require('ws');
 const SocketServer = require('ws').Server;
+
+const uuid = require('uuid/v1');
+
+// URL validator: see https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+const urlRegEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i
 
 // Set the port to 3001
 const PORT = 3001;
@@ -44,7 +45,12 @@ wss.on('connection', (ws) => {
       return;
     }
 
-    if (parsedPacket.type === 'message' || parsedPacket.type === 'system') {
+    if (parsedPacket.type === 'message') {
+      if (isLinkToImage(parsedPacket.data.content)) {
+        parsedPacket.type = 'image-link';
+      }
+      wss.broadcast(parsedPacket, []);
+    } else if (parsedPacket.type === 'system') {
       wss.broadcast(parsedPacket, []);
     } else if (parsedPacket.type === 'protocol') {
       console.log(`--- Incoming protocol message: ${parsedPacket.data} ---`);
@@ -79,4 +85,8 @@ wss.broadcastSystemMessage = function broadcastSystemMessage(msgText) {
     },
   }
   wss.broadcast(packet, []);
+}
+
+function isLinkToImage(str) {
+  return str.match(urlRegEx) && str.match(/\.(png|gif|jpg)$/i);
 }
