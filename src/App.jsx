@@ -20,7 +20,8 @@ class App extends Component {
   componentDidMount() {
     this.setUpServerConnection();
 
-    // fake messages to demonstrate number ghost
+    // fake messages to demonstrate number ghost: uncomment the following lines for demo
+    /*
     setTimeout(() => {
       const msg = {
         id: '5d16310e-00a0-46bb-bbc8-1805495c366a',
@@ -54,6 +55,7 @@ class App extends Component {
       };
       this.socket.send(JSON.stringify(msg));
     }, 12000);
+    */
   }
 
   render() {
